@@ -15,7 +15,6 @@ function Item({todos,onToggle,onDelete}){
           onClick={()=> onToggle(todo.id)} 
           className='checker'/>
         <span>{todo.text}</span>
-        <span>{todo.text}</span>
         <img 
           src={deleteLogo}
           className='checker' 
