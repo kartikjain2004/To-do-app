@@ -3,6 +3,8 @@ import emptyLogo from './assets/empty.png'
 import checkLogo from './assets/check.png'
 import deleteLogo from './assets/delete.png'
 import './App.css'
+
+
 function Item({todos,onToggle,onDelete}){
   return(<ul>        
     {todos.map((todo)=>(
@@ -24,9 +26,11 @@ function Item({todos,onToggle,onDelete}){
   </ul>)
 }
 
+
 function App() {
   const [inputText,setInputText] = useState('');
   const [todos, setTodos] = useState([]);
+  const [filter, setFilter]=useState('all');
 
   const handleAddTask = () => {
     if(inputText.trim() === '') return;
@@ -51,6 +55,12 @@ function App() {
     setTodos(todos.filter(todo=>todo.id !== id));
   };
 
+  const filteredToDos= todos.filter((todo)=>{
+    if(filter === 'active') return !todo.completed;
+    if(filter === 'completed') return todo.completed;
+    return true;
+  });
+
   return (
     <>
       <section >
@@ -67,12 +77,12 @@ function App() {
           <button className='adder' type='button' onClick={handleAddTask}>Add</button>
         </div>
         <div>
-          <button>All</button>
-          <button>Active</button>
-          <button>Completed</button>
+          <button className='all' onClick={()=>setFilter('all')}>All</button>
+          <button className='active' onClick={()=>setFilter('active')}>Active</button>
+          <button className='completed' onClick={()=>setFilter('completed')}>Completed</button>
         </div>
         <div className='task-container'>
-          <Item todos={todos} onToggle={toggleCheck} onDelete={handleDeleteTask}/>
+          <Item todos={filteredToDos} onToggle={toggleCheck} onDelete={handleDeleteTask}/>
         </div>
 
       </section>
